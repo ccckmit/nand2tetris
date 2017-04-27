@@ -21,7 +21,7 @@ char hexDigits[] = "0123456789ABCDEF";
 void hex2binary(string hex, string binary) {
   for (int i=0; hex[i] != '\0'; i++) {
     char *ptr = strchr(hexDigits, hex[i]);
-	assert(ptr != NULL);
+    assert(ptr != NULL);
     char h = ptr - hexDigits;
     sprintf(&binary[4*i], "%s", h2b[h]);
   }
