@@ -48,8 +48,6 @@ Pair cMap[] = {
 };
 
 #define arraySize(array) (sizeof(array)/sizeof(array[0]))
-// #define C_SIZE (sizeof(cMap)/sizeof(cMap[0]))
-// #define D_SIZE (sizeof(dMap)/sizeof(dMap[0]))
 
 int find(string key, Pair map[], int len) {
     for (int i=0; i<len; i++) {
