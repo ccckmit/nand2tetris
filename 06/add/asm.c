@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 typedef char* string;
 
@@ -15,10 +16,13 @@ string h2b[] = {
   "1000", "1001", "1010", "1011",
   "1100", "1101", "1110", "1111"};
 
+char hexDigits[] = "0123456789ABCDEF";
+
 void hex2binary(string hex, string binary) {
   for (int i=0; hex[i] != '\0'; i++) {
-    char h = hex[i] - '0';
-    if (h > 10) h = hex[i] - 'A' + 10;
+    char *ptr = strchr(hexDigits, hex[i]);
+	assert(ptr != NULL);
+    char h = ptr - hexDigits;
     sprintf(&binary[4*i], "%s", h2b[h]);
   }
 }
@@ -50,11 +54,11 @@ Pair cMap[] = {
 #define arraySize(array) (sizeof(array)/sizeof(array[0]))
 
 int find(string key, Pair map[], int len) {
-    for (int i=0; i<len; i++) {
-        if (strcmp(map[i].key, key)==0)
-            return i;
-    }
-    return -1;
+  for (int i=0; i<len; i++) {
+    if (strcmp(map[i].key, key)==0)
+      return i;
+  }
+  return -1;
 }
 
 string lookup(string key, Pair map[], int len) {
@@ -64,18 +68,18 @@ string lookup(string key, Pair map[], int len) {
 }
 
 void code2binary(string code, string binary) {
-    if (code[0]=='@') { // A 指令： ＠number
-      int number;
-      sscanf(code, "@%d", &number);
-      decimal2binary(number, binary);  
-    } else { // C 指令： d = comp
-      char d[10], comp[100];
-      sscanf(code, "%[^=]=%s", d, comp);
-      string dcode = lookup(d, dMap, arraySize(dMap));
-      string ccode = lookup(comp, cMap, arraySize(cMap));
-      string jcode = "000";
-      sprintf(binary, "111%s%s%s", ccode, dcode, jcode);
-    }
+  if (code[0]=='@') { // A 指令： ＠number
+    int number;
+    sscanf(code, "@%d", &number);
+    decimal2binary(number, binary);  
+  } else { // C 指令： d = comp
+    char d[10], comp[100];
+    sscanf(code, "%[^=]=%s", d, comp);
+    string dcode = lookup(d, dMap, arraySize(dMap));
+    string ccode = lookup(comp, cMap, arraySize(cMap));
+    string jcode = "000";
+    sprintf(binary, "111%s%s%s", ccode, dcode, jcode);
+  }
 }
 
 void assemble(string fname) {
