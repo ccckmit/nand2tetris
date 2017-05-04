@@ -56,7 +56,7 @@ Pair jMap[] = {
   {"JLT","100"}, {"JNE","101"}, {"JLE","110"}, {"JMP","111"}
 };
 
-#define SYM_SIZE 1000
+#define SYM_SIZE 1000*100
 
 int addr[SYM_SIZE] = {
   0, 1, 2, 3,
@@ -77,6 +77,7 @@ Pair symTable[SYM_SIZE] = {
 };
 
 int symTop = 23;
+int varTop = 16;
 
 char strTable[SYM_SIZE * 10];
 char *strTableEnd = strTable;
@@ -141,8 +142,13 @@ void code2binary(string code, string binary) {
       char symbol[100];
       match = sscanf(code, "@%s", symbol);
       int* addrPtr = lookup(symbol, symTable, symTop);
-      assert(addrPtr != NULL);
-      address = *addrPtr;
+      if (addrPtr == NULL) { // 宣告變數
+        symAdd(symbol, varTop, symTable, &symTop); // 新增一個變數
+        address = varTop++;
+      } else { // 已知變數 (標記) 位址
+//      assert(addrPtr != NULL);
+        address = *addrPtr;
+      }
       decimal2binary(address, binary);
     }
   } else { // C 指令： d = comp;j
@@ -210,7 +216,8 @@ void assemble(string file) {
   pass2(inFile, outFile);
 }
 
-// run: ./asm Add
+// run: ./asm <file> 
+// notice : <file> with no extension.
 int main(int argc, char *argv[]) {
   assemble(argv[1]);
 }
