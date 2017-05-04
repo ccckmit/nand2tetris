@@ -101,7 +101,6 @@ int find(string key, Pair map[], int len) {
 
 void* lookup(string key, Pair map[], int len) {
   int i = find(key, map, len);
-//  printf("lookup: i=%d\n", i);
   if (i==-1) return NULL;
   return map[i].value;
 }
@@ -146,19 +145,18 @@ void code2binary(string code, string binary) {
         symAdd(symbol, varTop, symTable, &symTop); // 新增一個變數
         address = varTop++;
       } else { // 已知變數 (標記) 位址
-//      assert(addrPtr != NULL);
         address = *addrPtr;
       }
       decimal2binary(address, binary);
     }
-  } else { // C 指令： d = comp;j
-    if (strchr(code, '=') != NULL) {
+  } else { // C 指令
+    if (strchr(code, '=') != NULL) { // d=comp
       sscanf(code, "%[^=]=%s", d, comp);
       dcode = lookup(d, dMap, arraySize(dMap));
       ccode = lookup(comp, cMap, arraySize(cMap));
       sprintf(binary, "111%s%s000", ccode, dcode);
     } else {
-      sscanf(code, "%[^;];%s", comp, j);
+      sscanf(code, "%[^;];%s", comp, j); // comp;j
       ccode = lookup(comp, cMap, arraySize(cMap));
       jcode = lookup(j, jMap, arraySize(jMap));
       sprintf(binary, "111%s000%s", ccode, jcode);      
