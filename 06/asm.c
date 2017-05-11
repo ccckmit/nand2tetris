@@ -56,7 +56,7 @@ StrTable strTable;
 
 void symAdd(Map *map, char *label, int address) {
   addr[map->top] = address;
-  Pair p = c6add(map, c6strNew(&strTable, label), &addr[map->top]);
+  Pair p = c6mapAdd(map, c6strNew(&strTable, label), &addr[map->top]);
   printf("  p.key=%s *p.value=%d top=%d\n", p.key, *(int*)p.value, map->top);
 }
 
@@ -88,7 +88,7 @@ void code2binary(string code, string binary) {
     else {
       char symbol[100];
       match = sscanf(code, "@%s", symbol);
-      int* addrPtr = c6lookup(&symMap, symbol);
+      int* addrPtr = c6mapLookup(&symMap, symbol);
       if (addrPtr == NULL) { // 宣告變數
         symAdd(&symMap, symbol, varTop); // 新增一個變數
         address = varTop++;
@@ -100,13 +100,13 @@ void code2binary(string code, string binary) {
   } else { // C 指令
     if (strchr(code, '=') != NULL) { // d=comp
       sscanf(code, "%[^=]=%s", d, comp);
-      dcode = c6lookup(&dMap, d);
-      ccode = c6lookup(&cMap, comp);
+      dcode = c6mapLookup(&dMap, d);
+      ccode = c6mapLookup(&cMap, comp);
       sprintf(binary, "111%s%s000", ccode, dcode);
     } else {
       sscanf(code, "%[^;];%s", comp, j); // comp;j
-      ccode = c6lookup(&cMap, comp);
-      jcode = c6lookup(&jMap, j);
+      ccode = c6mapLookup(&cMap, comp);
+      jcode = c6mapLookup(&jMap, j);
       sprintf(binary, "111%s000%s", ccode, jcode);      
     }
   }
@@ -165,10 +165,10 @@ void assemble(string file) {
 // run: ./asm <file> 
 // notice : <file> with no extension.
 int main(int argc, char *argv[]) {
-  c6new(&dMap, dList, c6size(dList));
-  c6new(&cMap, cList, c6size(cList));
-  c6new(&jMap, jList, c6size(jList));
-  c6new(&symMap, symList, SYM_SIZE);
+  c6mapNew(&dMap, dList, c6size(dList));
+  c6mapNew(&cMap, cList, c6size(cList));
+  c6mapNew(&jMap, jList, c6size(jList));
+  c6mapNew(&symMap, symList, SYM_SIZE);
   c6strTable(&strTable, strTableText, c6size(strTableText));
   symMap.top = symTop;
   assemble(argv[1]);

@@ -24,10 +24,10 @@ typedef struct _StrTable {
   char *textEnd;
 } StrTable;
 
-extern Map *c6new(Map *map, Pair *list, int size);
-extern Pair c6add(Map *map, char *key, void *value);
-extern int c6find(Map *map, char *key);
-extern void *c6lookup(Map *map, char *key);
+extern Map *c6mapNew(Map *map, Pair *list, int size);
+extern Pair c6mapAdd(Map *map, char *key, void *value);
+extern int c6mapFind(Map *map, char *key);
+extern void *c6mapLookup(Map *map, char *key);
 extern void c6htob(string hex, string binary);
 extern void c6dtob(int d, string binary);
 extern void c6strTable(StrTable *t, char *text, int size);

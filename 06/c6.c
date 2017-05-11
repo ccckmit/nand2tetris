@@ -4,21 +4,21 @@
 #include "c6.h"
 
 // ================ Map ====================
-Map* c6new(Map *map, Pair *list, int size) {
+Map* c6mapNew(Map *map, Pair *list, int size) {
   map->list = list;
   map->size = size;
   map->top = size;
   return map;
 }
 
-Pair c6add(Map *map, char *key, void *value) {
+Pair c6mapAdd(Map *map, char *key, void *value) {
   assert(map->top < map->size);
   Pair p = { key, value };
   map->list[map->top++] = p;
   return p;
 }
 
-int c6find(Map *map, char *key) {
+int c6mapFind(Map *map, char *key) {
   for (int i=0; i<map->top; i++) {
     if (strcmp(map->list[i].key, key)==0)
       return i;
@@ -26,8 +26,8 @@ int c6find(Map *map, char *key) {
   return -1;
 }
 
-void* c6lookup(Map *map, char *key) {
-  int i = c6find(map, key);
+void* c6mapLookup(Map *map, char *key) {
+  int i = c6mapFind(map, key);
   if (i==-1) return NULL;
   return map->list[i].value;
 }
@@ -58,10 +58,6 @@ void c6dtob(int d, string binary) {
 
 
 // ================== String Table ======================
-
-// static char strTable[100000];
-// static char *strTableEnd = strTable;
-
 void c6strTable(StrTable *t, char *text, int size) {
   t->text = text;
   t->size = size;
