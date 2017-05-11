@@ -4,7 +4,7 @@
 // File name: projects/04/fill/Fill.tst
 
 load Fill.hack;
-echo "Make sure that 'No Animation' is selected. Then, select the keyboard, press any key for some time, and inspect the screen.";
+echo "First, make sure that 'No Animation' is selected. Then, select the Keyboard, click on any key, and check the screen.";
 
 repeat {
   ticktock;

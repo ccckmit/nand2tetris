@@ -9,6 +9,9 @@ logs
 *.bak
 bak
 
+# zip
+*.zip
+
 # node 
 node_modules
 
