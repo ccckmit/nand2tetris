@@ -51,9 +51,12 @@ Map dMap, cMap, jMap, symMap;
 int symTop = 23;
 int varTop = 16;
 
+char strTableText[100000];
+StrTable strTable;
+
 void symAdd(Map *map, char *label, int address) {
   addr[map->top] = address;
-  Pair p = c6add(map, c6strnew(label), &addr[map->top]);
+  Pair p = c6add(map, c6strNew(&strTable, label), &addr[map->top]);
   printf("  p.key=%s *p.value=%d top=%d\n", p.key, *(int*)p.value, map->top);
 }
 
@@ -166,6 +169,7 @@ int main(int argc, char *argv[]) {
   c6new(&cMap, cList, c6size(cList));
   c6new(&jMap, jList, c6size(jList));
   c6new(&symMap, symList, SYM_SIZE);
+  c6strTable(&strTable, strTableText, c6size(strTableText));
   symMap.top = symTop;
   assemble(argv[1]);
 }

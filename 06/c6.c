@@ -59,13 +59,19 @@ void c6dtob(int d, string binary) {
 
 // ================== String Table ======================
 
-static char strTable[100000];
-static char *strTableEnd = strTable;
+// static char strTable[100000];
+// static char *strTableEnd = strTable;
 
-char *c6strnew(char *str) {
-  char *strBegin = strTableEnd;
-  strcpy(strTableEnd, str);
-  strTableEnd += strlen(str) + 1;
+void c6strTable(StrTable *t, char *text, int size) {
+  t->text = text;
+  t->size = size;
+  t->textEnd = text;
+}
+
+char *c6strNew(StrTable *t, char *str) {
+  char *strBegin = t->textEnd;
+  strcpy(t->textEnd, str);
+  t->textEnd += strlen(str) + 1;
   return strBegin;
 }
 
