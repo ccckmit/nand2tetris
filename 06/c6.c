@@ -5,17 +5,17 @@
 
 // ================ Map ====================
 Map* c6new(Map *map, Pair *list, int size) {
-	map->list = list;
-	map->size = size;
-	map->top = size;
+  map->list = list;
+  map->size = size;
+  map->top = size;
   return map;
 }
 
 Pair c6add(Map *map, char *key, void *value) {
-	assert(map->top < map->size);
+  assert(map->top < map->size);
   Pair p = { key, value };
   map->list[map->top++] = p;
-	return p;
+  return p;
 }
 
 int c6find(Map *map, char *key) {

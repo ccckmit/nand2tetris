@@ -53,7 +53,7 @@ int varTop = 16;
 
 void symAdd(Map *map, char *label, int address) {
   addr[map->top] = address;
-	Pair p = c6add(map, c6strnew(label), &addr[map->top]);
+  Pair p = c6add(map, c6strnew(label), &addr[map->top]);
   printf("  p.key=%s *p.value=%d top=%d\n", p.key, *(int*)p.value, map->top);
 }
 
@@ -162,10 +162,10 @@ void assemble(string file) {
 // run: ./asm <file> 
 // notice : <file> with no extension.
 int main(int argc, char *argv[]) {
-	c6new(&dMap, dList, c6size(dList));
-	c6new(&cMap, cList, c6size(cList));
-	c6new(&jMap, jList, c6size(jList));
-	c6new(&symMap, symList, SYM_SIZE);
-	symMap.top = symTop;
+  c6new(&dMap, dList, c6size(dList));
+  c6new(&cMap, cList, c6size(cList));
+  c6new(&jMap, jList, c6size(jList));
+  c6new(&symMap, symList, SYM_SIZE);
+  symMap.top = symTop;
   assemble(argv[1]);
 }
