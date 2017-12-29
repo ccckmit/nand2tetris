@@ -61,18 +61,18 @@ CHIP CPU {
     PC(in=Aout, load=PCload, inc=true, reset=reset, out[0..14]=pc);
     
     // JUMP condition
-    Or(a=ng, b=zr, out=ngzr);			              // ngzr = (ng | zr)
-    Not(in=ngzr, out=g);			                  // g = out > 0 = !(ng | zr);  ng = out < 0;  zr = out = 0
-    And(a=ng, b=instruction[2], out=passLT);          // ngLT = (ng & LT)
-    And(a=zr, b=instruction[1], out=passEQ);          // zrEQ = (zr & EQ)
-    And(a=g,  b=instruction[0], out=passGT);          // gGT = (g & GT)
+    Or(a=ng, b=zr, out=ngzr);			           // ngzr = (ng | zr)
+    Not(in=ngzr, out=g);			               // g = out > 0 = !(ng | zr);  ng = out < 0;  zr = out = 0
+    And(a=ng, b=instruction[2], out=passLT);       // ngLT = (ng & LT)
+    And(a=zr, b=instruction[1], out=passEQ);       // zrEQ = (zr & EQ)
+    And(a=g,  b=instruction[0], out=passGT);       // gGT = (g & GT)
     Or(a=passLT, b=passEQ, out=passLE);
     Or(a=passLE, b=passGT, out=pass);
 
-    And(a=isC, b=pass, out=PCload); // PCload = isC & J
+    And(a=isC, b=pass, out=PCload);                // PCload = isC & J
 
     // output
     And16(a=Aout, b=Aout, out[0..14]=addressM);
-    And(a=isC, b=instruction[3], out=writeM); // writeM = isC & d3
+    And(a=isC, b=instruction[3], out=writeM);      // writeM = isC & d3
     And16(a=ALUout, b=ALUout, out=outM);
 }
