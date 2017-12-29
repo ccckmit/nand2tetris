@@ -61,8 +61,8 @@ CHIP CPU {
     PC(in=Aout, load=PCload, inc=true, reset=reset, out[0..14]=pc);
     
     // JUMP condition
-    Or(a=ng, b=zr, out=ngzr);			          // ngzr = (ng | zr)
-    Not(in=ngzr, out=g);			              // g = out > 0 = !(ng | zr);  ng = out < 0;  zr = out = 0
+    Or(a=ng, b=zr, out=ngzr);                     // ngzr = (ng | zr)
+    Not(in=ngzr, out=g);                          // g = out > 0 = !(ng | zr);  ng = out < 0;  zr = out = 0
     And(a=ng, b=instruction[2], out=passLT);      // ngLT = (ng & LT)
     And(a=zr, b=instruction[1], out=passEQ);      // zrEQ = (zr & EQ)
     And(a=g,  b=instruction[0], out=passGT);      // gGT = (g & GT)
